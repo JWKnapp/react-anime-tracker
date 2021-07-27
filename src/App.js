@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import { useState } from "react";
 
 import "./App.css";
@@ -12,8 +12,10 @@ import Home from "./components/home";
 
 function App() {
   const [isAuthenticated, userHasAuthenticated] = useState(false);
+  let [users, setUsers] = useState([]);
+  let [shows, setShows] = useState([]);
 
-  const users = [
+  users = [
     {
       id: 1,
       firstName: "josh",
@@ -34,7 +36,20 @@ function App() {
     },
   ];
 
-  const checkUser = (user) => {
+  shows = [
+    {
+      id: 1,
+      name: "Konosuba",
+      description: "a show about stealing panties",
+    },
+    {
+      id: 2,
+      name: "Golden Boy",
+      description: "a show about a pervert who can learn things quickly",
+    },
+  ];
+
+  function checkUser(user) {
     // TODO: check if the user exists and the pw doesnt match
     console.log("loggin in with user:", user);
     const foundUser = users.filter(
@@ -45,7 +60,23 @@ function App() {
     if (foundUser.length > 0) {
       return true;
     }
-  };
+  }
+
+  function onSignup(user) {
+    console.log("in onsignup function", user);
+    const id = Math.floor(Math.random() * 10000) + 1;
+    const newUser = {
+      id,
+      ...user,
+    };
+    setUsers([...users, newUser]);
+    console.log(users);
+  }
+
+  function onDelete(id) {
+    console.log("delete", id);
+    setShows(shows.filter((show) => show.id !== id));
+  }
 
   return (
     <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated }}>
@@ -53,12 +84,20 @@ function App() {
         <div className="App">
           <Header />
           <Route path="/" exact component={Public} />
-          <Route path="/signup" component={SignUp} />
+          <Route
+            path="/signup"
+            render={(props) => <SignUp {...props} onSignup={onSignup} />}
+          />
           <Route
             path="/login"
             render={(props) => <Login {...props} onLogin={checkUser} />}
           />
-          <Route path="/home" component={Home} />
+          <Route
+            path="/home"
+            render={(props) => (
+              <Home {...props} shows={shows} onDelete={onDelete} />
+            )}
+          />
           <Footer />
         </div>
       </Router>

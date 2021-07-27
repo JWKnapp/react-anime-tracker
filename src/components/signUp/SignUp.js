@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 
-const SignUp = () => {
+const SignUp = ({ onSignup }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -25,9 +25,12 @@ const SignUp = () => {
       return;
     }
     console.log("signed up");
-    // onAdd({ email, password });
-    // setEmail("");
-    // setPassword("");
+    onSignup({ firstName, lastName, email, password });
+    setFirstName("");
+    setLastName("");
+    setPassword("");
+    setEmail("");
+    setPassword("");
   }
 
   return (

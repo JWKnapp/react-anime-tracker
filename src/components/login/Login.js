@@ -2,8 +2,10 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { useAppContext } from "../../libs/contextLib";
+import { useHistory } from "react-router-dom";
 
 const Login = ({ onLogin }) => {
+  const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordShown, setPasswordShown] = useState(false);
@@ -29,6 +31,7 @@ const Login = ({ onLogin }) => {
     console.log("user status:", userStatus);
     if (userStatus) {
       userHasAuthenticated(true);
+      history.push("/home");
     } else {
       console.log("user does not exist");
     }

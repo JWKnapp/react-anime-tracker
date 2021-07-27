@@ -1,12 +1,24 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useAppContext } from "../../libs/contextLib";
+import { useHistory } from "react-router-dom";
 
-const NavBar = ({ handleLogout }) => {
-  const [isAuthenticated, userHasAuthenticated] = useState(false);
+const NavBar = () => {
+  const history = useHistory();
+  const { isAuthenticated, userHasAuthenticated } = useAppContext();
+
+  function handleLogout() {
+    userHasAuthenticated(false);
+    console.log(history);
+    history.push("/login");
+  }
+
+  console.log("in the navbar");
+  console.log(isAuthenticated);
   return (
     <div>
       {isAuthenticated ? (
-        <Link onClick={handleLogout}>Logout</Link>
+        <button onClick={handleLogout}>Logout</button>
       ) : (
         <>
           <Link to="/signup">

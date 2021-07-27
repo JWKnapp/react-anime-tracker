@@ -1,10 +1,10 @@
 import NavBar from "../navBar";
 
-const Header = () => {
+const Header = ({ handleLogout }) => {
   return (
     <div>
       <h1>Ani-Fan</h1>
-      <NavBar />
+      <NavBar handleLogout={handleLogout} />
     </div>
   );
 };
